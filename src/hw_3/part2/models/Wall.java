@@ -11,6 +11,6 @@ public class Wall extends Obstacle {
 
     @Override
     public boolean overcome(Participant participant) {
-        return participant.run(size);
+        return participant.jump(size);
     }
 }

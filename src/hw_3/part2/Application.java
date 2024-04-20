@@ -9,8 +9,8 @@ import java.util.List;
 
 public class Application {
     public static void main(String[] args) {
-        List<Participant> participants = new ArrayList<Participant>();
-        List<Obstacle> obstacles = new ArrayList<Obstacle>();
+        List<Participant> participants = new ArrayList<>();
+        List<Obstacle> obstacles = new ArrayList<>();
 
         participants.add(new Cat("Murzik", 4, 500));
         participants.add(new Human("Mark", 1, 2000));
