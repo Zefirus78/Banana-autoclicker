@@ -12,5 +12,7 @@ public abstract class Participant {
     }
 
     public abstract boolean run(double distance);
+
     public abstract boolean jump(double height);
+
 }

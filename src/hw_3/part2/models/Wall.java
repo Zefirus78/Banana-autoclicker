@@ -3,16 +3,14 @@ package hw_3.part2.models;
 import hw_3.part2.contracts.Obstacle;
 import hw_3.part2.contracts.Participant;
 
-public class Wall implements Obstacle {
-    private double height;
+public class Wall extends Obstacle {
 
-    public Wall(double height) {
-        this.height = height;
+    public Wall(String obstacleType, double size) {
+        super(obstacleType, size);
     }
 
     @Override
-    public void overcome(Participant participant) {
-        participant.jump();
-        System.out.println("Participant " + participant + " jumped over the wall");
+    public boolean overcome(Participant participant) {
+        return participant.run(size);
     }
 }

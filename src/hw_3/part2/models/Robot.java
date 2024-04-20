@@ -1,5 +1,6 @@
 package hw_3.part2.models;
 
+import hw_3.part2.contracts.Obstacle;
 import hw_3.part2.contracts.Participant;
 
 public class Robot extends Participant {
@@ -9,12 +10,13 @@ public class Robot extends Participant {
     }
 
     @Override
-    public void run() {
-        System.out.println("Robot run");
+    public boolean run(double distance) {
+        return distance <= maxRun;
     }
 
     @Override
-    public void jump() {
-        System.out.println("Robot jump");
+    public boolean jump(double height) {
+        return height <= maxJump;
     }
+
 }

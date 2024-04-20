@@ -9,12 +9,12 @@ public class Cat extends Participant {
     }
 
     @Override
-    public void run() {
-        System.out.println("Cat run");
+    public boolean run(double distance) {
+        return distance <= maxRun;
     }
 
     @Override
-    public void jump() {
-        System.out.println("Cat Jump");
+    public boolean jump(double height) {
+        return height <= maxJump;
     }
 }

@@ -9,12 +9,12 @@ public class Human extends Participant {
     }
 
     @Override
-    public void run() {
-        System.out.println(name + " run");
+    public boolean run(double distance) {
+        return distance <= maxRun;
     }
 
     @Override
-    public void jump() {
-        System.out.println(name + " jump");
+    public boolean jump(double height) {
+        return height <= maxJump;
     }
 }
