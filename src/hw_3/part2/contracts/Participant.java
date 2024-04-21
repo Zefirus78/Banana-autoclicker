@@ -11,8 +11,12 @@ public abstract class Participant {
         this.maxRun = maxRun;
     }
 
-    public abstract boolean run(double distance);
+    public boolean run(double distance){
+        return distance <= maxRun;
+    }
 
-    public abstract boolean jump(double height);
+    public boolean jump(double height){
+        return height <= maxJump;
+    }
 
 }

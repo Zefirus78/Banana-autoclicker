@@ -13,7 +13,7 @@ public class Application {
         List<Obstacle> obstacles = new ArrayList<>();
 
         participants.add(new Cat("Murzik", 4, 500));
-        participants.add(new Human("Mark", 1, 2000));
+        participants.add(new Human("Mark", 12, 4000));
         participants.add(new Robot("R2-D2", 0,200));
 
         obstacles.add(new Wall("\"Сlimbing wall\"",12));
