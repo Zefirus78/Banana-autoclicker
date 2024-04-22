@@ -21,14 +21,7 @@ public class StringOperations {
         }
 
         public char[] stringReverse(String source){
-            char[] chars = source.toCharArray();
-            char temp;
-            for(int i=0; i<chars.length/2; i++){
-                temp = chars[i];
-                chars[i] = chars[chars.length-1-i];
-                chars[chars.length-1-i] = temp;
-            }
-            return chars;
+            return new StringBuilder(source).reverse().toString().toCharArray();
         }
 
         public boolean isPalindrome(String str){
