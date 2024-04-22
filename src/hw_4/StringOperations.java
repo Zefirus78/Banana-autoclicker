@@ -20,8 +20,8 @@ public class StringOperations {
             return pos;
         }
 
-        public char[] stringReverse(String source){
-            return new StringBuilder(source).reverse().toString().toCharArray();
+        public String stringReverse(String source){
+            return new StringBuilder(source).reverse().toString();
         }
 
         public boolean isPalindrome(String str){

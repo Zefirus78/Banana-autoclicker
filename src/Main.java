@@ -10,7 +10,7 @@ public class Main {
         System.out.println(res);
         int wordPos = s.findWordPosition("Apple", "plant");
         System.out.println(wordPos);
-        char[] w = s.stringReverse("invitation");
+        String w = s.stringReverse("invitation");
         System.out.println(w);
         boolean palindrome = s.isPalindrome("apollo");
         System.out.println(palindrome);
