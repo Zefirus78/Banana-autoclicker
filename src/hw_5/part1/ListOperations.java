@@ -29,15 +29,16 @@ public class ListOperations {
         }
         return uniqueNumbers;
     }
-
-    public List<String> findOccurrence(List<String> list){
+    // how can I insert that Map into list? Because i have no idea how to do that :)
+    public void findOccurrence(List<String> list){
         Map<String, Integer> occurrences = new HashMap<String, Integer>();
+        List<String> result = new ArrayList<>();
         for(String s : list){
             occurrences.put(s, occurrences.getOrDefault(s, 0) + 1);
         }
-        List<String> result = new ArrayList<>();
-        result.addAll(occurrences.keySet());
-        return result;
+        for(Map.Entry<String, Integer> entry : occurrences.entrySet()){
+            System.out.println("{name: \"" + entry.getKey() + "\" occurrence: " + entry.getValue() + "}");
+        }
     }
 
 
