@@ -27,7 +27,7 @@ public class PhoneBook {
         List<Record> allContactsByName = new ArrayList<>();
         for(Record r : contacts){
             if(r.getName().equals(name)){
-                allContactsByName.add(r);
+                allContactsByName.add(r.getPhoneNumber());
             }
         }
         return null;
