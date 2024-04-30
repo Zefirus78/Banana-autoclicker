@@ -27,10 +27,10 @@ public class PhoneBook {
         List<Record> allContactsByName = new ArrayList<>();
         for(Record r : contacts){
             if(r.getName().equals(name)){
-                allContactsByName.add(r.getPhoneNumber());
+                allContactsByName.add(r);
             }
         }
-        return null;
+        return allContactsByName.isEmpty() ? null : allContactsByName;
     }
 
 
