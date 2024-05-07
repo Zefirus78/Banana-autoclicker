@@ -18,14 +18,14 @@ public class Application {
                 "moon", "nest", "owl", "cat"
         );
 
-//        int occurred = list.countOccurrence(words,"book");
+//        int occurred = list.countOccurrence(listOfWords,"book");
 //        System.out.println(occurred);
 
-//        List<Integer> convertToList = list.toList(numbers);
+//        List<Integer> convertToList = list.toList(arrayOfNums);
 //            System.out.println(convertToList);
 
-//        Set<Integer> unique = list.findUnique(listOfNUmbers);
-//        System.out.println(listOfNUmbers);
+//        Set<Integer> unique = list.findUnique(listOfNumbers);
+//        System.out.println(listOfNumbers);
 //        System.out.println(unique);
 
         listOfOperations.findOccurrence(listOfWords);
