@@ -8,12 +8,12 @@ import java.util.random.RandomGenerator;
 
 public class Application {
     public static void main(String[] args) {
-        ListOperations list = new ListOperations();
+        ListOperations listOfOperations = new ListOperations();
 
-        int[] numbers = {109, 23, 67, 12, 3, 7, 4};
-        List<Integer> listOfNUmbers = List.of(57, 12, 47, 89,
+        int[] arrayOfNums = {109, 23, 67, 12, 3, 7, 4};
+        List<Integer> listOfNumbers = List.of(57, 12, 47, 89,
                 25, 67, 12, 39, 74, 50, 33, 98, 24, 67, 88, 19, 73, 46, 29, 57);
-        List<String> words = List.of("book", "cat", "dog", "egg",
+        List<String> listOfWords = List.of("book", "cat", "dog", "egg",
                 "fish", "goat", "hat", "moon", "egg", "kite", "lamp",
                 "moon", "nest", "owl", "cat"
         );
@@ -28,7 +28,7 @@ public class Application {
 //        System.out.println(listOfNUmbers);
 //        System.out.println(unique);
 
-        list.findOccurrence(words);
+        listOfOperations.findOccurrence(listOfWords);
 
     }
 }
