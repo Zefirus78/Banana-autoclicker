@@ -15,7 +15,7 @@ public class ListOperations {
     }
 
     public List<Integer> toList(int[] arrayOfIntegers){
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> list = new ArrayList<>();
         for(int i : arrayOfIntegers){
             list.add(i);
         }
@@ -23,15 +23,15 @@ public class ListOperations {
     }
 
     public Set<Integer> findUnique(List<Integer> listOfIntegers){
-        Set<Integer> uniqueNumbers = new HashSet<Integer>();
+        Set<Integer> uniqueNumbers = new HashSet<>();
         for(int i : listOfIntegers){
             uniqueNumbers.add(i);
         }
         return uniqueNumbers;
     }
-    // how can I insert that Map into list? Because i have no idea how to do that :)
+    // how can I insert that Map into list? Because I have no idea how to do that :)
     public void findOccurrence(List<String> listOfOccurrences){
-        Map<String, Integer> occurrences = new HashMap<String, Integer>();
+        Map<String, Integer> occurrences = new HashMap<>();
         List<String> result = new ArrayList<>();
         for(String s : listOfOccurrences){
             occurrences.put(s, occurrences.getOrDefault(s, 0) + 1);
