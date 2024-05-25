@@ -17,7 +17,7 @@ public class ArrayValueCalculator{
                 try {
                     sum += Integer.parseInt(arrayOfNumbers[i][j]);
                 } catch (NumberFormatException e) {
-                    throw new ArrayDataException("Incorrect record in row:" + i + ", column" + j, i, j);
+                    throw new ArrayDataException("Incorrect record in row: " + i + ", column: " + j);
                 }
             }
         }
