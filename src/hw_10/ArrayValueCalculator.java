@@ -1,7 +1,7 @@
 package hw_10;
 
 public class ArrayValueCalculator{
-    public int doCalc(String[][] arrayOfNumbers) throws ArraySizeException, ArrayDataException{
+    public int doCalc(String[][] arrayOfNumbers) throws ArraySizeException, ArrayDataException {
         if(arrayOfNumbers.length != 4){
             throw new ArraySizeException("The array size must be 4*4!");
         }
