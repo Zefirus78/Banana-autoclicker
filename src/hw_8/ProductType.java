@@ -4,5 +4,9 @@ public enum ProductType {
     BOOK,
     TOY,
     CAR,
+    PHONE,
+    LAPTOP,
+    PC,
+    BIKE,
 
 }
