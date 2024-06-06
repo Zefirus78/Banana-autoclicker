@@ -1,10 +1,6 @@
 package hw_8;
 
-import lombok.Getter;
-
 import java.time.LocalDate;
-import java.util.*;
-import java.util.stream.Collectors;
 
 public class Product {
     private int id;
@@ -46,7 +42,7 @@ public class Product {
         private ProductType type;
         private double price;
         private boolean hasDiscount;
-        private LocalDate date = LocalDate.now();
+        private LocalDate date;
 
         public ProductBuilder(ProductType type, double price) {
             this.type = type;
