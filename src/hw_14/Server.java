@@ -19,29 +19,27 @@ public class Server {
             BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
             PrintWriter out = new PrintWriter(client.getOutputStream(), true);
 
-            System.out.println("??????!");
+            out.println("Привіт!");
 
-            String message = in.readLine();
-            System.out.println("Server received: " + message);
-
-
-            while(!message.equalsIgnoreCase("exit")){
-                if(message.matches(".*[??????].*")){
-                    out.println("?? ???? ?????????");
+            String message = "";
+            Number val = 5;
+            while (!(message = in.readLine()).equalsIgnoreCase("exit")) {
+                if (message.matches(".*[эъыЭЫЪ].*")){
+                    out.println("What's palyanutsya?");
                     String response = in.readLine();
-                    String correctAnswer = "????????";
-                    if(response != null && response.equalsIgnoreCase(correctAnswer)){
-                        out.printf("Current date is:", LocalDate.now());
-                        out.println("?? ?????????");
-                        out.println("????? ???????!");
-                    }
-                    else{
-                        out.println("??????????? ?????????");
+                    String correctAnswer = "полуниця";
+                    if (response != null && response.equalsIgnoreCase(correctAnswer)) {
+                        out.println("Current date is: " + LocalDate.now());
+                        out.println("Bye!");
+                        out.println("Glory to Ukraine!");
+                    } else {
+                        out.println("Bye moskal");
+                        client.close();
+                        out.println("You've been disconnected!");
                     }
                 }
             }
             client.close();
-            in.close();
             System.out.println("Client disconnected");
         }
         catch (IOException e) {

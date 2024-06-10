@@ -1,38 +1,27 @@
 package hw_14;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
 
 public class Client {
     public static void main(String[] args) {
-        BufferedReader in;
-        PrintWriter out;
-        try(Socket clientSocket = new Socket("localhost", 8081)) {
-            System.out.println("Connected");
-            in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-            out = new PrintWriter(clientSocket.getOutputStream(), true);
-            Scanner keyboard = new Scanner(System.in);
+        try (Socket socket = new Socket("localhost", 8081);
+             BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             PrintWriter out = new PrintWriter(socket.getOutputStream(), true)) {
 
-            out.println(keyboard.nextLine());
-        } catch (UnknownHostException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            String response;
+            while ((response = in.readLine()) != null) {
+                System.out.println("Server: " + response);
+                if (response.equals("Bye!")) {
+                    break;
+                }
 
-        String line = "";
-        while (!line.equals("Over")) {
-            try {
-                line = in.readLine();
-                out.writeUTF(line);
-            } catch(IOException i) {
-                System.out.println(i);
+                String userInput = "????????";
+
+                out.println(userInput);
             }
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
         }
     }
 }
