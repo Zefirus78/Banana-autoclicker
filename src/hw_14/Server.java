@@ -22,7 +22,6 @@ public class Server {
             out.println("Привіт!");
 
             String message = "";
-            Number val = 5;
             while (!(message = in.readLine()).equalsIgnoreCase("exit")) {
                 if (message.matches(".*[эъыЭЫЪ].*")){
                     out.println("What's palyanutsya?");
