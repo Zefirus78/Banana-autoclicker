@@ -1,6 +1,5 @@
 package hw_26;
 
-
 import lombok.Getter;
 import lombok.Setter;
 

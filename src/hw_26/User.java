@@ -2,6 +2,7 @@ package hw_26;
 
 import lombok.Setter;
 import lombok.Getter;
+
 @Getter
 @Setter
 public class User {

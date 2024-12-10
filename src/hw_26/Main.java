@@ -16,5 +16,6 @@ public class Main {
         System.out.println("City: " + city);
         System.out.println("Zip: " + zip);
         System.out.println("Street: " + street);
+
     }
 }
