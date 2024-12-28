@@ -38,26 +38,19 @@ public class Main {
                     dao.add(new Employee(0, name, age, position, salary));
                  break;
                 case 2:
-                    System.out.println("Enter employee ID: ");
-                    int id = sc.nextInt();
-                    sc.nextLine();
                     System.out.println("Enter employee name: ");
                     String newName = sc.nextLine();
                     System.out.println("Enter employee age: ");
                     int newAge = sc.nextInt();
-                    sc.nextLine();
                     System.out.println("Enter employee position: ");
                     String newPosition = sc.nextLine();
                     System.out.println("Enter employee salary: ");
                     double newSalary = sc.nextDouble();
 
-                    dao.update(new Employee(id, newName, newAge, newPosition, newSalary));
                  break;
                 case 3:
                     System.out.println("Enter employee ID to be deleted: ");
-                    int Newid = sc.nextInt();
 
-                    dao.delete(Newid);
                  break;
                 case 4:
                     System.out.println("Info about all employees: ");
