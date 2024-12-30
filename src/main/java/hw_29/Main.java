@@ -47,10 +47,13 @@ public class Main {
                     System.out.println("Enter employee salary: ");
                     double newSalary = sc.nextDouble();
 
-                 break;
+                    dao.update(new Employee(0, newName, newAge, newPosition, newSalary));
+                    break;
                 case 3:
                     System.out.println("Enter employee ID to be deleted: ");
+                    int id = sc.nextInt();
 
+                    dao.delete(id);
                  break;
                 case 4:
                     System.out.println("Info about all employees: ");
