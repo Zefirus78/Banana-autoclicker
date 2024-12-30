@@ -22,8 +22,4 @@ public class Order {
         return customer;
     }
 
-    public void setCustomer(String customer) {
-        this.customer = customer;
-    }
-
 }
