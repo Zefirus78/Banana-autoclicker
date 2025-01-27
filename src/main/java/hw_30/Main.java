@@ -21,17 +21,17 @@ public class Main {
             Student student3 = new Student("Jack", "Sparrow", "jack.sparrow@gmail.com");
 
             Homework hw1 = new Homework("Math", LocalDate.of(2025, 1, 20), 56);
-            Homework hw2 = new Homework("English", LocalDate.of(2025, 1, 22), 99);
-            Homework hw3 = new Homework("Physics", LocalDate.of(2025, 1, 18), 78);
-
             student1.addHomework(hw1);
+            Homework hw2 = new Homework("English", LocalDate.of(2025, 1, 22), 99);
             student1.addHomework(hw2);
+            Homework hw3 = new Homework("Physics", LocalDate.of(2025, 1, 18), 78);
             student1.addHomework(hw3);
-
-            student3.addHomework(hw3);
-            student3.addHomework(hw1);
-
-            student2.addHomework(hw3);
+            Homework hw4 = new Homework("Chemistry", LocalDate.of(2025, 1, 19), 90);
+            student3.addHomework(hw4);
+            Homework hw5 = new Homework("Science", LocalDate.of(2025, 1, 20), 90);
+            student3.addHomework(hw5);
+            Homework hw6 = new Homework("Biology", LocalDate.of(2025, 1, 21), 90);
+            student2.addHomework(hw6);
 
             dao.save(student1);
             dao.save(student2);
@@ -39,6 +39,12 @@ public class Main {
 
             System.out.println("Saved students: ");
             dao.findAll().forEach(System.out::println);
+
+//            Student foundStudent = dao.findById(3L);
+//            System.out.println(foundStudent);
+
+//            System.out.println(dao.update(new Student("Robert", "Downey Jr.", "tony.stark@gmail.com")));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

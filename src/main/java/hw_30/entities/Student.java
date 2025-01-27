@@ -27,7 +27,7 @@ public class Student {
     @Column(name = "email", nullable = false)
     private String email;
     @Getter
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     private Set<Homework> homeworks = new HashSet<>();
 
 
