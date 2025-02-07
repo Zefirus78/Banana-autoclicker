@@ -4,9 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+
 @Entity
 @Table(name = "Students")
 public class Student {
@@ -27,8 +26,8 @@ public class Student {
     @Column(name = "email", nullable = false)
     private String email;
     @Getter
-    @OneToMany(mappedBy = "student", cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
-    private Set<Homework> homeworks = new HashSet<>();
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Homework> homeworks = new ArrayList<>();
 
 
     public Student(){}
@@ -49,17 +48,17 @@ public class Student {
         h.setStudent(null);
     }
 
+
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Student student = (Student) o;
-        return id == student.id;
+        return Objects.equals(id, student.id) && Objects.equals(firstName, student.firstName) && Objects.equals(lastName, student.lastName) && Objects.equals(email, student.email) && Objects.equals(homeworks, student.homeworks);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hash(id, firstName, lastName, email, homeworks);
     }
 
     @Override
