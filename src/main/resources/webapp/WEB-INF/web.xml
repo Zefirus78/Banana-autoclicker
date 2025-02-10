@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+         xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee
+        http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
+         id="WebApp_ID" version="3.1">
+    <display-name>Books Web App</display-name>
+    <servlet>
+        <servlet-name>BookController</servlet-name>
+        <servlet-class>hillel.ua.app.controller.BookController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>BookController</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/webapp/templates/error-page.jsp</location>
+    </error-page>
+</web-app>
