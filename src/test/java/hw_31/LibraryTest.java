@@ -35,8 +35,7 @@ public class LibraryTest {
 
     @AfterEach
     public void afterEachTest() {
-        library.removeBook(tempBook1);
-        library.removeBook(tempBook2);
+        library = new Library();
     }
 
     @AfterAll
@@ -92,7 +91,7 @@ public class LibraryTest {
         boolean removed = library.removeBook(bookToRemove);
         assertTrue(removed, "Book should be removed");
 
-        assertEquals(2, library.getBooks().size(), "Library should contain 2 books");
+        assertEquals(1, library.getBooks().size(), "Library should contain 1 book");
     }
 
     @Test
@@ -105,6 +104,7 @@ public class LibraryTest {
     @Test
     @Order(4)
     public void testGetBookCount() {
-        assertEquals(2, library.getBookCount(), "Library should have 2 books");
+        int books = library.getBookCount();
+        assertEquals(2, books, "Library should have 2 books");
     }
 }

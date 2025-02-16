@@ -60,9 +60,6 @@ public class Library {
     }
 
     public List<Book> getBooks() {
-        if (.getBooks().size()) {
-            throw new IllegalArgumentException("Book title and author are required");
-        }
 
         List<Book> books = new ArrayList<>();
         try (Session session = Hibernate.getSessionFactory().openSession()) {
@@ -79,22 +76,15 @@ public class Library {
     }
 
     public int getBookCount() {
-        if (book.getTitle() == null || book.getAuthor() == null) {
-            throw new IllegalArgumentException("Book title and author are required");
-        }
-
         int count = 0;
         try (Session session = Hibernate.getSessionFactory().openSession()) {
-
-            Transaction transaction;
-            transaction = session.beginTransaction();
-            count = session.createQuery("SELECT COUNT(*) FROM Book", Integer.class)
+            Long result = session.createQuery("SELECT COUNT(*) FROM Book", Long.class)
                     .uniqueResult();
-
-            transaction.commit();
-            return count;
+            return result != null ? result.intValue() : 0;
         } catch (Exception e) {
-            return count;
+            e.printStackTrace();
+            return 0;
         }
     }
+
 }

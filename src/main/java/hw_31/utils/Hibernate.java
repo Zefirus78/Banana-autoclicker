@@ -22,8 +22,4 @@ public class Hibernate {
     public static SessionFactory getSessionFactory() {
         return sessionFactory;
     }
-
-    public static void shutDown() {
-        sessionFactory.close();
-    }
 }
