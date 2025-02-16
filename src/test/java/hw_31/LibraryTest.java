@@ -1,10 +1,12 @@
 package hw_31;
 
 import hw_31.utils.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.junit.jupiter.api.*;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -12,12 +14,9 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LibraryTest {
     private static SessionFactory sessionFactory;
     private static Library library;
-    private Book tempBook1;
-    private Book tempBook2;
-
 
     @BeforeAll
-    public static void setup() {
+    public static void setup() throws HibernateException {
         library = new Library();
         sessionFactory = Hibernate.getSessionFactory();
         try (Session session = sessionFactory.openSession()) {
@@ -28,33 +27,45 @@ public class LibraryTest {
     }
 
     @BeforeEach
-    public void beforeEachTest() {
-        tempBook1 = library.addBook(new Book("The Silent Echoes", "Eleanor Graves"));
-        tempBook2 = library.addBook(new Book("Chronicles of the Starborn", "Zane Holloway"));
+    public void beforeEachTest() throws HibernateException {
+        library = new Library();
+        library.addBook(new Book("The Silent Echoes", "Eleanor Graves"));
+        library.addBook(new Book("The Last Oracle", "Cassian Vance"));
     }
 
     @AfterEach
-    public void afterEachTest() {
-        library = new Library();
+    public void afterEachTest() throws HibernateException {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createNativeQuery("DELETE FROM books").executeUpdate();
+            session.getTransaction().commit();
+        }
     }
 
     @AfterAll
-    public static void cleanDatabase() {
+    public static void cleanDatabase() throws HibernateException {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createQuery("DELETE FROM Book").executeUpdate(); // Clear the table
+            session.createNativeQuery("DROP TABLE books").executeUpdate();
             session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (sessionFactory != null) {
+                sessionFactory.close();
+            }
         }
-        sessionFactory.close();
     }
 
     @Test
     @Order(1)
-    public void testAddBook() {
+    public void testAddBook() throws HibernateException {
+        System.out.println("Current books in library: " + library.getBooks().size());
         Book book = new Book("Sherlock Holmes", "Arthur Conan Doyle");
         library.addBook(book);
 
         List<Book> books = library.getBooks();
+        System.out.println("Current books in library: " + library.getBooks().size());
         assertTrue(books
                         .stream()
                         .anyMatch(b -> "Sherlock Holmes"
@@ -63,48 +74,66 @@ public class LibraryTest {
 
     @Test
     @Order(2)
-    public void testAddInvalidBook() {
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(new Book(null, "Mark Twain"));
-        });
+    public void testAddInvalidBook() throws HibernateException {
+        System.out.println("Current books in library: " + library.getBooks().size());
+        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () ->
+                library.addBook(new Book(null, "Mark Twain")));
         assertEquals("Book title and author are required", exception.getMessage());
 
-        exception = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(new Book("Tom Sawyer", null));
-        });
+        exception = assertThrows(IllegalArgumentException.class, () ->
+                library.addBook(new Book("Tom Sawyer", null)));
         assertEquals("Book title and author are required", exception.getMessage());
 
-        exception = assertThrows(IllegalArgumentException.class, () -> {
-            library.addBook(new Book(null, null));
-        });
+        exception = assertThrows(IllegalArgumentException.class, () ->
+                library.addBook(new Book(null, null)));
         assertEquals("Book title and author are required", exception.getMessage());
     }
 
     @Test
     @Order(3)
-    public void testRemoveBook() {
-        Long id = library.getBooks().get(0).getId();
-
-        Book bookToRemove = new Book();
-        bookToRemove.setId(id);
+    public void testRemoveBook() throws HibernateException {
+        Book bookToRemove = library.getBooks().get(0);
 
         boolean removed = library.removeBook(bookToRemove);
         assertTrue(removed, "Book should be removed");
 
+        System.out.println("Current books in library: " + library.getBooks().size());
         assertEquals(1, library.getBooks().size(), "Library should contain 1 book");
     }
 
     @Test
-    @Order(3)
-    public void testGetBooks() {
+    @Order(4)
+    void testRemoveBookWithInvalidId() throws HibernateException {
+        Book invalidBook = new Book();
+
+        Exception exception = assertThrows(IllegalArgumentException.class, () ->
+                library.removeBook(invalidBook));
+
+        assertEquals("Book id is required", exception.getMessage());
+    }
+
+    @Test
+    @Order(5)
+    public void testGetBooks() throws HibernateException {
         List<Book> books = library.getBooks();
+        System.out.println("Current books in library: " + library.getBooks().size());
         assertEquals(2, books.size(), "Library should contain 2 books");
     }
 
     @Test
-    @Order(4)
-    public void testGetBookCount() {
+    @Order(6)
+    public void testGetBookCount() throws HibernateException {
         int books = library.getBookCount();
+        System.out.println("Current books in library: " + library.getBooks().size());
         assertEquals(2, books, "Library should have 2 books");
+    }
+
+    @Test
+    void testTimeout() throws HibernateException {
+        assertTimeout(Duration.ofSeconds(2), () -> {
+            List<Book> books = library.getBooks();
+            assertNotNull(books);
+            assertFalse(books.isEmpty());
+        });
     }
 }

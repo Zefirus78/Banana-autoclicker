@@ -1,6 +1,7 @@
 package hw_31;
 
 import hw_31.utils.Hibernate;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.MutationQuery;
@@ -10,7 +11,7 @@ import java.util.List;
 
 public class Library {
 
-    public Book addBook(Book book) {
+    public void addBook(Book book) throws HibernateException {
         if (book.getTitle() == null || book.getAuthor() == null) {
             throw new IllegalArgumentException("Book title and author are required");
         }
@@ -32,12 +33,11 @@ public class Library {
                 transaction.rollback();
             }
         }
-        return book;
     }
 
-    public boolean removeBook(Book book) {
-        if (book == null) {
-            throw new IllegalArgumentException("Book data is required");
+    public boolean removeBook(Book book) throws HibernateException {
+        if (book.getId() == null) {
+            throw new IllegalArgumentException("Book id is required");
         }
 
         Transaction transaction = null;
@@ -59,7 +59,7 @@ public class Library {
         }
     }
 
-    public List<Book> getBooks() {
+    public List<Book> getBooks() throws HibernateException {
 
         List<Book> books = new ArrayList<>();
         try (Session session = Hibernate.getSessionFactory().openSession()) {
@@ -75,8 +75,7 @@ public class Library {
         }
     }
 
-    public int getBookCount() {
-        int count = 0;
+    public int getBookCount() throws HibernateException {
         try (Session session = Hibernate.getSessionFactory().openSession()) {
             Long result = session.createQuery("SELECT COUNT(*) FROM Book", Long.class)
                     .uniqueResult();
