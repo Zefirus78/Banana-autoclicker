@@ -4,13 +4,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.LinkedList;
+import java.util.PriorityQueue;
 import java.util.Queue;
 
 public class CoffeeOrderBoard {
 
     private static final Logger LOGGER  = LogManager.getLogger(CoffeeOrderBoard.class.getName());
 
-    private final Queue<Order> orders = new LinkedList<>();
+    private final PriorityQueue<Order> orders = new PriorityQueue<>();
     private int orderIdCount = 1;
 
     public void add(String customerName) {
