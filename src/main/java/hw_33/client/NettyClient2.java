@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class NettyClient2 {
 
-    private static final Logger LOGGER = LogManager.getLogger(NettyClient2.class);
+    private static final Logger LOGGER = LogManager.getLogger(NettyClient1.class);
     static final String HOST = "localhost";
     static final int PORT = 8080;
 
@@ -43,12 +43,14 @@ public class NettyClient2 {
                 String message = scanner.nextLine();
                 channel.writeAndFlush(message + "\n");
                 if ("exit".equalsIgnoreCase(message)) {
+                    LOGGER.info("[CLIENT] Disconnected from server.");
                     channel.closeFuture().sync();
                     break;
                 }
             }
         } finally {
             group.shutdownGracefully();
+            LOGGER.info("[CLIENT] Disconnected from host: {}, port: {} ", HOST,PORT);
         }
     }
 }
