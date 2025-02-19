@@ -14,79 +14,43 @@ import java.util.Scanner;
 
 public class NettyClient1 {
 
-//    static final String HOST = "localhost";
-//    static final int PORT = 8080;
-//
-//    public void run() {
-//        EventLoopGroup group = new NioEventLoopGroup();
-//
-//        try {
-//            Bootstrap bootstrap = new Bootstrap();
-//            bootstrap.group(group)
-//                    .channel(NioSocketChannel.class)
-//                    .handler(new ChannelInitializer<SocketChannel>() {
-//                        @Override
-//                        public void initChannel(SocketChannel socketChannel)     {
-//                            ChannelPipeline p =  socketChannel.pipeline();
-//
-//                            p.addLast(new StringDecoder());
-//                            p.addLast(new StringEncoder());
-//                            p.addLast(new ClientHandler());
-//                        }
-//                    });
-//            ChannelFuture future = bootstrap.connect(HOST, PORT).sync();
-//            String input = "Peter";
-//            Channel channel = future.sync().channel();
-//            channel.writeAndFlush(input);
-//            channel.flush();
-//            future.channel().closeFuture().sync();
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            group.shutdownGracefully();
-//        }
-//
-//    }
+    private static final Logger LOGGER = LogManager.getLogger(NettyClient1.class);
+    static final String HOST = "localhost";
+    static final int PORT = 8080;
 
-
-
-    private static final Logger logger = LogManager.getLogger(NettyClient1.class);
-    private final String host;
-    private final int port;
-
-    public NettyClient1(String host, int port) {
-        this.host = host;
-        this.port = port;
-    }
-
-    public void run() throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException {
         EventLoopGroup group = new NioEventLoopGroup();
+
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(group)
                     .channel(NioSocketChannel.class)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new ClientHandler());
+                        protected void initChannel(SocketChannel sc) throws Exception {
+                            ChannelPipeline pipeline = sc.pipeline();
+
+                            pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new StringEncoder());
+                            pipeline.addLast(new ClientHandler());
                         }
                     });
+            Channel channel = bootstrap.connect(HOST, PORT).sync().channel();
+            LOGGER.info("[CLIENT] Connected to the server at host: {}, port: {} ", HOST,PORT);
 
-            Channel channel = bootstrap.connect(host, port).sync().channel();
             Scanner scanner = new Scanner(System.in);
             while (scanner.hasNextLine()) {
-                String input = scanner.nextLine();
-                channel.writeAndFlush(input + "\n");
-                if ("exit".equalsIgnoreCase(input.trim())) {
-                    System.exit(0);
+                String message = scanner.nextLine();
+                channel.writeAndFlush(message + "\n");
+                if ("exit".equalsIgnoreCase(message)) {
+                    LOGGER.info("[CLIENT] Disconnected from server.");
+                    channel.closeFuture().sync();
+                    break;
                 }
             }
         } finally {
             group.shutdownGracefully();
+            LOGGER.info("[CLIENT] Disconnected from host: {}, port: {} ", HOST,PORT);
         }
-    }
-
-    public static void main(String[] args) throws InterruptedException {
-        new NettyClient1("localhost", 8080).run();
     }
 }

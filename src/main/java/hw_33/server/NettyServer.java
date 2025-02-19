@@ -10,7 +10,6 @@ import io.netty.handler.codec.string.StringEncoder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
 import java.util.concurrent.ConcurrentHashMap;
 
 public class NettyServer {
@@ -19,7 +18,7 @@ public class NettyServer {
     static int clientCount = 1;
     private static final int PORT = 8080;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);
         EventLoopGroup workerGroup = new NioEventLoopGroup();
 
@@ -29,20 +28,18 @@ public class NettyServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
-                        protected void initChannel(SocketChannel socketChannel) throws Exception {
-                            ChannelPipeline pipeline = socketChannel.pipeline();
+                        protected void initChannel(SocketChannel sc) {
+                            ChannelPipeline pipeline = sc.pipeline();
 
-//                            pipeline.addLast(new StringDecoder());
-//                            pipeline.addLast(new StringEncoder());
+                            pipeline.addLast(new StringDecoder());
+                            pipeline.addLast(new StringEncoder());
                             pipeline.addLast(new ServerHandler());
                         }
                     });
             ChannelFuture future = bootstrap.bind(PORT).sync();
-            System.out.println("Server started on port " + PORT);
-            LOGGER.info("Server started on port: " + PORT);
+            System.out.println("[SERVER] started on port " + PORT);
+            LOGGER.info("[SERVER] started on port: " + PORT);
             future.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         } finally {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();

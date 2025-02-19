@@ -1,14 +1,13 @@
 package hw_33.server;
 
 
-import io.netty.channel.Channel;
-import io.netty.channel.ChannelHandler;
-import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static hw_33.server.NettyServer.activeClients;
 import static hw_33.server.NettyServer.clientCount;
@@ -22,42 +21,28 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
     public void channelActive(ChannelHandlerContext ctx) {
         clientName = "client-" + clientCount++;
         activeClients.put(clientName, ctx.channel());
-        System.out.println(clientName + " connected at " + LocalDateTime.now());
-        LOGGER.info("[SERVER] {} successfully connected at {}", clientName, LocalDateTime.now());
+        LocalDateTime now = LocalDateTime.now();
+        String formattedDateTime = now.format(DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm"));
+        System.out.printf("[SERVER] %s successfully connected at [%s] with socket: %s%n", clientName, formattedDateTime, ctx.channel());
+        LOGGER.info("[SERVER] {} successfully connected at {} with socket: {}", clientName, formattedDateTime, ctx.channel());
     }
-
-//    @Override
-//    protected void channelRead0(ChannelHandlerContext ctx, String msg) {
-//        if ("exit".equalsIgnoreCase(msg.trim())) {
-//            ctx.close();
-//        } else {
-//            LOGGER.info("[SERVER] Received from {}: {}", clientName, msg);
-//        }
-//    }
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) {
-        if ("exit".equalsIgnoreCase(msg.trim())) {
+        if (msg.startsWith("/name ")) {
+            String newName = msg.substring(6).trim();
+            if (!newName.isEmpty() && !activeClients.containsKey(newName)) {
+                activeClients.remove(clientName);
+                activeClients.put(newName, ctx.channel());
+                System.out.println("[SERVER] " + clientName + " changed the name to " + newName);
+                clientName = newName;
+            } else {
+                ctx.writeAndFlush("[SERVER] This name is already taken or incorrect!\n");
+            }
+        } else if ("exit".equalsIgnoreCase(msg)) {
             ctx.close();
-            System.exit(0);
-        } else if (msg.startsWith("@")) {
-            String[] parts = msg.split(" ", 2);
-            if (parts.length > 1) {
-                String targetClient = parts[0].substring(1);
-                String message = parts[1];
-                Channel targetChannel = activeClients.get(targetClient);
-                if (targetChannel != null) {
-                    targetChannel.writeAndFlush("[PRIVATE] " + clientName + ": " + message + "\n");
-                } else {
-                    ctx.writeAndFlush("[SERVER] Client " + targetClient + " not found\n");
-                }
-            }
         } else {
-            for (Channel ch : activeClients.values()) {
-                if (ch != ctx.channel()) {
-                    ch.writeAndFlush("[CHAT] " + clientName + ": " + msg + "\n");
-                }
-            }
+            System.out.println("[" + clientName + "]: " + msg);
         }
     }
 
@@ -66,7 +51,6 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
         activeClients.remove(clientName);
         System.out.println("[SERVER] " + clientName + " disconnected");
         LOGGER.info("[SERVER] {} disconnected", clientName);
-        System.exit(0);
     }
 
     @Override
