@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class NettyClient2 {
 
-    private static final Logger LOGGER = LogManager.getLogger(NettyClient1.class);
+    private static final Logger LOGGER = LogManager.getLogger(NettyClient2.class);
     static final String HOST = "localhost";
     static final int PORT = 8080;
 
