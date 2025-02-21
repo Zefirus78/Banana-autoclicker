@@ -39,7 +39,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<String> {
             } else {
                 ctx.writeAndFlush("[SERVER] This name is already taken or incorrect!\n");
             }
-        } else if ("exit".equalsIgnoreCase(msg)) {
+        } else if (msg.contains("exit")) {
             ctx.close();
         } else {
             System.out.println("[" + clientName + "]: " + msg);
